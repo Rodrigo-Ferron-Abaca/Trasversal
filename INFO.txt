@@ -1,0 +1,1 @@
+grupo2universidad.sql es la base de datos
