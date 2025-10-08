@@ -44,10 +44,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGap(0, 277, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        jMenu1.setText("Materia");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Alumno");
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
