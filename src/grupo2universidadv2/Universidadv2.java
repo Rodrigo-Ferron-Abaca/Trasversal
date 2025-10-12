@@ -41,9 +41,10 @@ public class Universidadv2 {
 */
 
         //Para modificar Materia
-        Materia ingSoftware = new Materia(49,"Ingenieria de Software", 1, false);
+       /*Materia ingSoftware = new Materia(49,"Ingenieria de Software", 1, false);
         MateriaData materiaData = new MateriaData();
         materiaData.modificarMateria(ingSoftware);
+        */
 
         
         //Para Buscar una materia por ID
@@ -55,10 +56,10 @@ public class Universidadv2 {
             System.out.println("no se encontro naranja");
         }
         */
-        //Falta consulta para dar de baja o alta una materia
         
         ///para eliminado logico de materia por ID
-       
+        MateriaData data= new MateriaData();
+        data.eliminarMateria(46);
         
     }
 

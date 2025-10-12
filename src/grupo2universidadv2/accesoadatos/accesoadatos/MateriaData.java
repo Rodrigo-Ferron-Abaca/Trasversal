@@ -101,6 +101,21 @@ public class MateriaData {
             
         }
     }
+     public void eliminarMateria(int idMateria) {
+        String query = "DELETE FROM materia WHERE idMateria = ?";
+        
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, idMateria);
+            preparedStatement.executeUpdate();
+            
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "No se pudo eliminar la materia", "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }
+    }
    
    public List<Materia> listarMaterias() {
         List<Materia> materiasActivas = new ArrayList<>();
