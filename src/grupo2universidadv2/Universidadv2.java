@@ -9,11 +9,14 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
+import grupo2universidadv2.accesoadatos.accesoadatos.Conexion;
 import grupo2universidadv2.accesoadatos.accesoadatos.AlumnoData;
 import grupo2universidadv2.entidades.entidades.Alumno;
-import grupo2universidadv2.accesoadatos.accesoadatos.Conexion;
+
 import grupo2universidadv2.accesoadatos.accesoadatos.MateriaData;
 import grupo2universidadv2.entidades.entidades.Materia;
+import grupo2universidadv2.entidades.entidades.Inscripcion;
+import grupo2universidadv2.accesoadatos.accesoadatos.InscripcionData;
 
 /**
  *
@@ -58,9 +61,9 @@ public class Universidadv2 {
         */
         
         ///para eliminado logico de materia por ID
-        MateriaData data= new MateriaData();
+        /*MateriaData data= new MateriaData();
         data.eliminarMateria(46);
-        
+        */
     }
 
 }
