@@ -1,8 +1,6 @@
-
 package grupo2universidadv2.entidades.entidades;
 
 import java.time.LocalDate;
-
 
 public class Alumno {
     private int idAlumno;
@@ -82,8 +80,6 @@ public class Alumno {
 
     @Override
     public String toString() {
-        return "Alumno{" + "idAlumno=" + idAlumno + ", dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + '}';
+        return nombre + " " + apellido;
     }
-    
-    
 }

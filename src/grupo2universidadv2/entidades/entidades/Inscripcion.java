@@ -10,6 +10,7 @@ package grupo2universidadv2.entidades.entidades;
  * @author MI EQUIPO
  */
 public class Inscripcion {
+
     private int idInscripcion;
     private double nota;
     private Alumno alumno;
@@ -31,10 +32,13 @@ public class Inscripcion {
         this.materia = materia;
     }
 
-    public Inscripcion(Alumno a, Materia m, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Inscripcion(Alumno a, Materia m, int idInscripcion) {
+        this.alumno = a;
+        this.materia = m;
+        this.idInscripcion = idInscripcion;
+        this.nota = 0; // o asigna el valor que corresponda
     }
-    
+
     public int getIdInscripcion() {
         return idInscripcion;
     }
@@ -71,8 +75,5 @@ public class Inscripcion {
     public String toString() {
         return "Inscripcion{" + "idInscripcion=" + idInscripcion + ", nota=" + nota + ", alumno=" + alumno + ", materia=" + materia + '}';
     }
-    
-    
 
-    
 }

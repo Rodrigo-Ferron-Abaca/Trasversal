@@ -20,20 +20,22 @@ import grupo2universidadv2.entidades.entidades.Materia;
  * @author Gonza
  */
 public class FormularioInscripcion extends javax.swing.JInternalFrame {
+
     private List<Materia> listaMat;
     private List<Alumno> listaAlu;
-    
+
     private InscripcionData inscData;
     private MateriaData matData;
     private AlumnoData alData;
-    
+
     private DefaultTableModel tablaMateria;
+
     /**
      * Creates new form FormularioInscripcion
      */
     public FormularioInscripcion() {
         initComponents();
-        
+
         alData = new AlumnoData();
         listaAlu = alData.listaAlumnos();
         tablaMateria = new DefaultTableModel();
@@ -125,6 +127,11 @@ public class FormularioInscripcion extends javax.swing.JInternalFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 350, 150));
 
+        jcAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcAlumnoActionPerformed(evt);
+            }
+        });
         jPanel1.add(jcAlumno, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 190, -1));
 
         jSeparator1.setForeground(new java.awt.Color(102, 102, 102));
@@ -182,79 +189,98 @@ public class FormularioInscripcion extends javax.swing.JInternalFrame {
     private void jbInscribirAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInscribirAlumnoActionPerformed
         // TODO add your handling code here:
         int filaSeleccionada = jtMaterias.getSelectedRow();
-        if(filaSeleccionada!= -1){
-            Alumno a=(Alumno)jcAlumno.getSelectedItem();
-            int idMateria=(Integer)tablaMateria.getValueAt(filaSeleccionada, 0);
-            String nombreMateria =(String) tablaMateria.getValueAt(filaSeleccionada, 1);
-            int anio=(Integer)tablaMateria.getValueAt(filaSeleccionada, 2);
-            Materia m=new Materia(idMateria, nombreMateria, anio, true);
-            
-            Inscripcion i=new Inscripcion(a, m, 0);
+        if (filaSeleccionada != -1) {
+            Alumno a = (Alumno) jcAlumno.getSelectedItem();
+            int idMateria = (Integer) tablaMateria.getValueAt(filaSeleccionada, 0);
+            String nombreMateria = (String) tablaMateria.getValueAt(filaSeleccionada, 1);
+            int anio = (Integer) tablaMateria.getValueAt(filaSeleccionada, 2);
+            Materia m = new Materia(idMateria, nombreMateria, anio, true);
+
+            Inscripcion i = new Inscripcion(a, m, 0);
             inscData.guardarInscripcion(i);
-            JOptionPane.showMessageDialog(this, "Alumno inscripto");
-            borrarFilaTabla();
+
+            JOptionPane.showMessageDialog(this, "Alumno inscripto correctamente");
+
+            // Refrescar tabla después de inscribir
+            cargarDatosNoInscriptas();
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una materia");
         }
     }//GEN-LAST:event_jbInscribirAlumnoActionPerformed
 
     private void jbAnularInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnularInscripcionActionPerformed
         // TODO add your handling code here:
         int filaSeleccionada = jtMaterias.getSelectedRow();
-        if(filaSeleccionada!= -1){
-            Alumno a=(Alumno)jcAlumno.getSelectedItem();
-            int idMateria=(Integer)tablaMateria.getValueAt(filaSeleccionada, 0);
-            
+        if (filaSeleccionada != -1) {
+            Alumno a = (Alumno) jcAlumno.getSelectedItem();
+            int idMateria = (Integer) tablaMateria.getValueAt(filaSeleccionada, 0);
+
             inscData.borrarInscripcionMateriaAlumno(a.getIdAlumno(), idMateria);
-            borrarFilaTabla();
+
+            JOptionPane.showMessageDialog(this, "Inscripción anulada correctamente");
+
+            // Refrescar tabla después de anular
+            cargarDatosInscriptas();
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una materia");
         }
     }//GEN-LAST:event_jbAnularInscripcionActionPerformed
 
-    private void cargarAlumnos(){
-        for(Alumno item: listaAlu){
+    private void jcAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAlumnoActionPerformed
+        borrarFilaTabla();
+        rinsc.clearSelection();
+        jbInscribirAlumno.setEnabled(false);
+        jbAnularInscripcion.setEnabled(false);
+    }//GEN-LAST:event_jcAlumnoActionPerformed
+
+    private void cargarAlumnos() {
+        for (Alumno item : listaAlu) {
             jcAlumno.addItem(item);
         }
     }
 
-    private void armarCabeceraTabla(){
+    private void armarCabeceraTabla() {
         ArrayList<Object> filaCabecera = new ArrayList<>();
         filaCabecera.add("ID");
         filaCabecera.add("Nombre");
         filaCabecera.add("Año");
-        
+
         for (Object it : filaCabecera) {
             tablaMateria.addColumn(it);
         }
         jtMaterias.setModel(tablaMateria);
-        
+
     }
-    
-    private void borrarFilaTabla(){
+
+    private void borrarFilaTabla() {
         int indice = tablaMateria.getRowCount();
-        
+
         for (int i = indice; i > 0; i--) {
             tablaMateria.removeRow(0);
         }
     }
-    
-    private void cargarDatosNoInscriptas(){
+
+    private void cargarDatosNoInscriptas() {
         borrarFilaTabla();
         Alumno selec = (Alumno) jcAlumno.getSelectedItem();
         listaMat = inscData.obtenerMateriasNOCursadas(selec.getIdAlumno());
-        System.out.println("materia no inscrita"+ listaMat);
-        for(Materia m: listaMat){
-            tablaMateria.addRow (new Object[] {m.getIdMateria(),m.getNombre(),m.getAnioMateria()});
+        System.out.println("materia no inscrita" + listaMat);
+        for (Materia m : listaMat) {
+            tablaMateria.addRow(new Object[]{m.getIdMateria(), m.getNombre(), m.getAnioMateria()});
         }
-    }   
-    private void cargarDatosInscriptas(){
+    }
+
+    private void cargarDatosInscriptas() {
         borrarFilaTabla();
         Alumno selec = (Alumno) jcAlumno.getSelectedItem();
         listaMat = inscData.obtenerMateriasCursadas(selec.getIdAlumno());
-        System.out.println("materia inscrita"+ listaMat);
-         for(Materia m: listaMat){
-            tablaMateria.addRow (new Object[] {m.getIdMateria(),m.getNombre(),m.getAnioMateria()});
+        System.out.println("materia inscrita" + listaMat);
+        for (Materia m : listaMat) {
+            tablaMateria.addRow(new Object[]{m.getIdMateria(), m.getNombre(), m.getAnioMateria()});
         }
     }
-    
-   
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
