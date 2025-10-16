@@ -6,11 +6,12 @@
 package grupo2universidadv2.entidades.entidades;
 
 public class Materia {
+
     private int idMateria;
     private String nombre;
     private int anioMateria;
     private boolean activo;
-    
+
     public Materia() {
     }
 
@@ -61,8 +62,7 @@ public class Materia {
 
     @Override
     public String toString() {
-        return "Materia{" + "idMateria=" + idMateria + ", nombre=" + nombre + ", anioMateria=" + anioMateria + ", activo=" + activo + '}';
+        return nombre; // así el JComboBox muestra el nombre de la materia
     }
-    
-    
+
 }

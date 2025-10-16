@@ -117,36 +117,32 @@ public class MateriaData {
         }
     }
    
-   public List<Materia> listarMaterias() {
-        List<Materia> materiasActivas = new ArrayList<>();
-        String query = "SELECT alumno.idAlumno, alumno.nombre, materia.nombre FROM inscripcion JOIN alumno ON inscripcion.idAlumno = alumno.idAlumno JOIN materia ON inscripcion.idMateria = materia.idMateria WHERE alumno.idAlumno = ?;";
-        
-            try {
+public List<Materia> listarMaterias() {
+    List<Materia> materiasActivas = new ArrayList<>();
+    String query = "SELECT * FROM materia WHERE estado = 1"; // solo activas
+    
+    try {
         PreparedStatement ps = con.prepareStatement(query);
-        ResultSet resultSet = ps.executeQuery();
+        ResultSet rs = ps.executeQuery();
 
-        while (resultSet.next()) {
-            int idMateria = resultSet.getInt("idMateria");
-            String nombre = resultSet.getString("nombre");
-            int anio = resultSet.getInt("anio");
-            boolean activo = resultSet.getBoolean("estado");
-
+        while (rs.next()) {
             Materia materia = new Materia();
-            materia.setIdMateria(idMateria);
-            materia.setNombre(nombre);
-            materia.setAnioMateria(anio);
-            materia.setActivo(activo);
-
+            materia.setIdMateria(rs.getInt("idMateria"));
+            materia.setNombre(rs.getString("nombre"));
+            materia.setAnioMateria(rs.getInt("año"));
+            materia.setActivo(rs.getBoolean("estado"));
             materiasActivas.add(materia);
-        }            
-        resultSet.close();
+        }
+
+        rs.close();
         ps.close();
     } catch (SQLException e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "No se pudo mostrar la lista, fijate que onda", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "No se pudo mostrar la lista de materias", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     return materiasActivas;
 }
+
     
 }
